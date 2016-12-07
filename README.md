@@ -14,11 +14,11 @@ $ meteor add ie76:paypal-button
 How to implement a simple paypal button in your template :
 ```html
     {{> iPaypalButton
-        email="john.doe@gmail.com"
+        email="john.doe@domaine.com"
         itemName="An item name"
-        returnUrl="http://domain.com/become-premium"
+        returnUrl="http://domain.com/thankyou"
         notifyUrl="http://domain.com/paypalcallback"
-        cancelUrl="http://domain.com/thankyou"
+        cancelUrl="http://domain.com/"
         amount="9"
         currency="USD"
         btnText="Subscribe Now"
