@@ -1,0 +1,23 @@
+<template name="iPaypalButton">
+    <form class="container" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="{{email}}">
+        <input type="hidden" name="item_name" value="{{itemName}}">
+        <input type="hidden" name="amount" value="{{amount}}">
+        <input type="hidden" name="no_note" value="1">
+        <input type="hidden" name="currency_code" value="{{currency}}">
+        {{#if returnUrl}}
+            <input type="hidden" name="return" value="{{returnUrl}}">
+        {{/if}}
+
+        {{#if notifyUrl}}
+            <input type="hidden" name="notify_url" value="{{notifyUrl}}">
+        {{/if}}
+
+        {{#if cancelUrl}}
+            <input type="hidden" name="cancel_return" value="{{cancelUrl}}">
+        {{/if}}
+
+        <button class="btn btn-success" type="submit" border="0" name="submit">{{btnText}}</button>
+    </form>
+</template>
