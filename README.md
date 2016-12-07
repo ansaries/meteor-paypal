@@ -1,6 +1,8 @@
 # Meteor paypal
 This package implements all paypal payements methods.
+
 > Simple button so far. Updates are coming !
+
 ## To install
 From your Meteor project directory:
 ```sh
