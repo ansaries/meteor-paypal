@@ -110,9 +110,8 @@ postRoutes.route('/paypalcallback', function(params, request, response, next) {
 
     ipn.verify(PaypalReturn, {'allow_sandbox': true}, function callback(err, mes) {
         if(mes === 'VERIFIED'){
-            //Do whatever you want with the data
-            //Store data if you want
-            //visit [Paypal HTML Form Variable Refence](https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/) www for more information on PaypalReturn object
+            //For more information on PaypalReturn object
+            //Visit https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/
             handlePayment(PaypalReturn);
         }
     });
