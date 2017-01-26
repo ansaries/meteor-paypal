@@ -16,6 +16,8 @@ How to implement a simple paypal button in your template :
     {{> iPaypalButton
         email="john.doe@domaine.com"
         itemName="An item name"
+        itemName="{{product._id}}"
+        userId="{{userId}}"
         returnUrl="http://domain.com/thankyou"
         notifyUrl="http://domain.com/paypalcallback"
         cancelUrl="http://domain.com/"
