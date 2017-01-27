@@ -37,7 +37,6 @@ postRoutes.route('/ipaycallback', function(params, request, response, next) {
              * Please visit :
              * https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/
              */
-
             Meteor.call("handlePayement", PaypalReturn, function(error, result){
                 if(!error)
                     console.log('Payement done.');

@@ -42,9 +42,11 @@ Meteor.methods({
      * @parm Number payementID
      * @return Boolean
      */
-    payementExist: (payementID) => {
+    payementExist: function (payementID){
         check(payementID, Number);
+
         let finder = iPay.find({txn_id: payementID}).count();
+
         return (finder > 1) ? true : false;
     },
     /*
@@ -52,12 +54,11 @@ Meteor.methods({
      *
      * @param Object paypalReturn
      */
-    handlePayement: (paypalReturn, userId) => {
-
+    handlePayement: function(paypalReturn){
         /*
          *  Append userID to paypalReturn Object
          */
-        paypalReturn.userID = userId;
+        paypalReturn.userID = paypalReturn.custom;
 
         /*
          * Check if object exists
