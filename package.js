@@ -1,8 +1,8 @@
 Package.describe({
     name: 'ie76:paypal-button',
-    version: '0.0.1',
-    summary: '',
-    git: '',
+    version: '0.1.0',
+    summary: 'A simple paypal button using IPN and Picker',
+    git: 'https://github.com/ie76/meteor-paypal',
     documentation: 'README.md'
 });
 
@@ -12,7 +12,7 @@ Package.onUse(function(api) {
     api.use('ecmascript');
     api.use('jquery');
     api.use('stevezhu:lodash@4.17.2');
-    api.use(['templating'], 'client');
+    api.use(['blaze-html-templates@1.0.4'], 'client');
     api.use('mongo', ['client', 'server']);
     api.use(['meteorhacks:picker@1.0.3', 'check@1.2.4', ], 'server');
 

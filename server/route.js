@@ -30,18 +30,20 @@ postRoutes.route('/ipaycallback', function(params, request, response, next) {
     response.setHeader( 'Content-Type', 'application/json' );
     response.statusCode = 200;
 
-    Meteor.call("handlePayement", PaypalReturn);
-
-    ipn.verify(PaypalReturn, {'allow_sandbox': true}, function callback(err, mes) {
+    ipn.verify(PaypalReturn, {'allow_sandbox': true}, Meteor.bindEnvironment(function (err, mes) {
         if(mes === 'VERIFIED'){
             /*
              * For more information about PaypalReturn Object.
              * Please visit :
              * https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/
              */
-            Meteor.call("handlePayement", PaypalReturn);
+
+            Meteor.call("handlePayement", PaypalReturn, function(error, result){
+                if(!error)
+                    console.log('Payement done.');
+            });
         }
-    });
+    }));
 
     /*
      *  Close Response.

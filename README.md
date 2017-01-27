@@ -52,12 +52,12 @@ Meteor.methods({
      *
      * @param Object paypalReturn
      */
-    handlePayement: (paypalReturn) => {
+    handlePayement: (paypalReturn, userId) => {
 
         /*
          *  Append userID to paypalReturn Object
          */
-        paypalReturn.userID = this.userID;
+        paypalReturn.userID = userId;
 
         /*
          * Check if object exists

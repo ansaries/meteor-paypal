@@ -6,5 +6,8 @@ Template.iPaypalButton.helpers({
     },
     getUrl: function(){
         return (_.includes(window.location.origin, 'localhost')) ? 'https://07a592d4.ngrok.io' : window.location.origin;
+    },
+    getUser: function(){
+        return Meteor.userId();
     }
 });
