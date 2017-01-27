@@ -1,5 +1,5 @@
 # Meteor paypal
-This package implements all paypal payements methods.
+This package implements "**Will have**" all paypal payements methods.
 
 > Simple button so far. Updates are coming !
 
@@ -10,82 +10,69 @@ $ meteor add ie76:paypal-button
 ```
 ## Basic Usage
 
-##### Client side
-How to implement a simple paypal button in your template :
-```html
-    {{> iPaypalButton
-        email="john.doe@domaine.com"
-        itemName="An item name"
-        returnUrl="http://domain.com/thankyou"
-        notifyUrl="http://domain.com/paypalcallback"
-        cancelUrl="http://domain.com/"
-        amount="9"
-        currency="USD"
-        btnText="Subscribe Now"
-    }}
+Simply add the lines below in your template:
+```markdown
+{{> iPaypalButton
+    email="john.doe@domaine.com"
+    name="An item name"
+    returnUrl="/thankyou"
+    cancelUrl="/"
+    amount="9"
+    currency="USD"
+    text="Subscribe Now"
+}}
 ```
-This is it ! Now you will need to create some routing for:
-* Return url
-* Notify url | For : **Server Side**
-* Cancel url
 
-## Walkthrough
-For this example we will use __picker__ :
-```sh
-$ meteor add meteorhacks:picker
+## Collection
+
+We have add `ipay` collection to mongo. You can use it to find records like :
+``` javascript
+ipay.find({txn_id: object.txn_id});
 ```
-We will create a backend route for the notify url.
-```js
-import bodyParser from 'body-parser';
 
-var postRoutes = Picker.filter(function(req, res) {
-    return req.method == "POST";
+## Methods
+
+There's two methods so far, `payementExist` and `handlePayement`.
+
+```javascript
+Meteor.methods({
+    /*
+     *  Check if paiement already exists
+     *
+     * @parm Number payementID
+     * @return Boolean
+     */
+    payementExist: (payementID) => {
+        check(payementID, Number);
+        let finder = iPay.find({txn_id: payementID}).count();
+        return (finder > 1) ? true : false;
+    },
+    /*
+     *  Handle paypal process
+     *
+     * @param Object paypalReturn
+     */
+    handlePayement: (paypalReturn) => {
+
+        /*
+         *  Append userID to paypalReturn Object
+         */
+        paypalReturn.userID = this.userID;
+
+        /*
+         * Check if object exists
+         *
+         * @param Number txn_id
+         * @return void
+         */
+        Meteor.call("payementExist", paypalReturn.txn_id, function(error, result){
+            if(!result)
+                iPay.insert(paypalReturn);
+            else
+                console.log(error);
+        });
+    },
 });
-
-Picker.middleware( bodyParser.json() );
-Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
-
-postRoutes.route('/paypalcallback', function(params, request, response, next) {
-
-    PaypalReturn = request.body;
-
-    response.setHeader( 'Content-Type', 'application/json' );
-    response.statusCode = 200;
-    response.end(JSON.stringify(PaypalReturn));
-
-});
-```
-Now you got a response from paypal with the transaction data, if you want to verify PayPal IPN messages, you will need to require paypal-ipn.
-```sh
-$ npm install paypal-ipn
-```
-Once done your code will become :
-```js
-import bodyParser from 'body-parser';
-import ipn from 'paypal-ipn'
-
-var postRoutes = Picker.filter(function(req, res) {
-    return req.method == "POST";
-});
-
-Picker.middleware( bodyParser.json() );
-Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
-
-postRoutes.route('/paypalcallback', function(params, request, response, next) {
-
-    PaypalReturn = request.body;
-
-    response.setHeader( 'Content-Type', 'application/json' );
-    response.statusCode = 200;
-
-    ipn.verify(PaypalReturn, {'allow_sandbox': true}, function callback(err, mes) {
-        if(mes === 'VERIFIED'){
-            //Do whatever you want with the data
-            //Store data if you want
-        }
-    });
-});
-
 ```
 
 ## Credits

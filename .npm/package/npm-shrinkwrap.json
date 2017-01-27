@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "paypal-ipn": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/paypal-ipn/-/paypal-ipn-3.0.0.tgz",
+      "from": "paypal-ipn@3.0.0"
+    }
+  }
+}
